@@ -1,9 +1,10 @@
 NAME = philo
-HEAD = philo.h
-SRC = main.c
+HEAD = ./includes/philo.h
 RM = rm -rf
 OBJ = $(SRC:%.c=%.o)
 CFLAGS = -Wall -Werror -Wextra -g
+SRC = 	main.c 			\
+		./src/valid.c	\
 
 .o : .c
 		$(CC) $(FLAGS) -Imlx $< -o $@
