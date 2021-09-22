@@ -6,7 +6,7 @@
 /*   By: bshawn <bshawn@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/18 16:39:35 by bshawn            #+#    #+#             */
-/*   Updated: 2021/09/18 16:55:54 by bshawn           ###   ########.fr       */
+/*   Updated: 2021/09/22 12:01:09 by bshawn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ int	valid(int argc, char **argv)
 		while (argv[k][i])
 		{
 			if (!ft_isdigit(argv[k][i]))
+				return (0);
+			if (i > 8)
 				return (0);
 			i++;
 		}
