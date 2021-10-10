@@ -6,11 +6,23 @@
 /*   By: bshawn <bshawn@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/10 14:27:16 by bshawn            #+#    #+#             */
-/*   Updated: 2021/10/10 16:02:23 by bshawn           ###   ########.fr       */
+/*   Updated: 2021/10/10 16:14:50 by bshawn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
+
+int	init_philos(t_rule *rule)
+{
+	int	i;
+
+	i = rule->n_ph;
+	while (i-- >= 0)
+	{
+		rule->philos[i].id = i;
+	}
+	return (1);
+}
 
 int	init(char **argv, t_rule *rule)
 {
@@ -21,5 +33,6 @@ int	init(char **argv, t_rule *rule)
 	rule->philos = malloc(sizeof(t_philo) * rule->n_ph);
 	if (!rule->philos)
 		return (0);
+	init_philos(rule);
 	return (1);
 }
