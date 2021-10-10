@@ -6,7 +6,7 @@
 /*   By: bshawn <bshawn@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/18 16:39:35 by bshawn            #+#    #+#             */
-/*   Updated: 2021/09/22 12:01:09 by bshawn           ###   ########.fr       */
+/*   Updated: 2021/10/10 15:58:45 by bshawn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,19 @@ int	ft_isdigit(int c)
 		return (1);
 	else
 		return (0);
+}
+
+int	check_rule(char **argv)
+{
+	if ((ft_atoi(argv[1]) < 2) || (ft_atoi(argv[2]) < 0)
+		|| (ft_atoi(argv[3]) < 0) || (ft_atoi(argv[4]) < 0))
+		return (0);
+	if (argv[5])
+	{
+		if (ft_atoi(argv[5]) <= 0)
+			return (0);
+	}
+	return (1);
 }
 
 int	valid(int argc, char **argv)
@@ -41,5 +54,7 @@ int	valid(int argc, char **argv)
 		}
 		k++;
 	}
+	if (!check_rule(argv))
+		return (0);
 	return (1);
 }

@@ -5,6 +5,8 @@ OBJ = $(SRC:%.c=%.o)
 CFLAGS = -Wall -Werror -Wextra -g
 SRC = 	main.c 			\
 		./src/valid.c	\
+		./src/init.c	\
+		./src/utils.c	\
 
 .o : .c
 		$(CC) $(FLAGS) -Imlx $< -o $@

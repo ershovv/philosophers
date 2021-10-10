@@ -1,34 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bshawn <bshawn@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/18 16:17:50 by bshawn            #+#    #+#             */
-/*   Updated: 2021/10/10 16:03:58 by bshawn           ###   ########.fr       */
+/*   Created: 2021/10/10 15:32:29 by bshawn            #+#    #+#             */
+/*   Updated: 2021/10/10 15:33:41 by bshawn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/philo.h"
+#include "../includes/philo.h"
 
-int	main(int argc, char **argv)
+long	ft_atoi(char *c)
 {
-	t_rule	rule;
+	int						i;
+	int						checkminus;
+	long					res;
 
-	if (!(valid(argc, argv)))
-	{
-		printf("Отвалился valid\n");
-		return (0);
+	checkminus = 0;
+	i = 0;
+	res = 0;
+	while (((c[i] >= 8) && (c[i] <= 13)) || c[i] == 32)
+		i++;
+	if (c[i] == '-' || c[i] == '+')
+	{	
+		if (c[i] == '-')
+			checkminus = 1;
+		i++;
 	}
-	
-	if (!(init(argv, &rule)))
+	while ((c[i] >= '0') && (c[i] <= '9'))
 	{
-		printf("Отвалился init\n");
-		return (0);
+		res = res * 10 + (c[i] - '0');
+		i++;
 	}
-
-	printf("worked");
-	return (0);
+	if (checkminus == 1)
+		res = -res;
+	return (res);
 }
- 
