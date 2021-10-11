@@ -22,7 +22,7 @@
 
 typedef struct s_philo
 {
-	pthread_t	thread;
+	pthread_t	*thread;
 	int			dead;
 	int			id;
 
@@ -42,5 +42,6 @@ typedef struct s_rule
 int		valid(int argc, char **argv);
 int		init(char **argv, t_rule *rule);
 long	ft_atoi(char *c);
+void*	life_of_philo(void *p);
 
 #endif

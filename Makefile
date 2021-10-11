@@ -2,6 +2,7 @@ NAME = philo
 HEAD = ./includes/philo.h
 RM = rm
 CC = gcc
+LDFLAGS = -pthread  -lpthread
 OBJ = $(SRC:%.c=%.o)
 CFLAGS = -Wall -Werror -Wextra -g
 SRC = 	main.c 			\
@@ -13,7 +14,7 @@ SRC = 	main.c 			\
 		$(CC) $(FLAGS) -Imlx $< -o $@
 
 $(NAME) : $(OBJ) $(HEAD)
-	$(CC) $(CFLAGS) $(OBJ) -o $(NAME)
+	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJ) -o $(NAME)
 
 clean:
 	$(RM) ./*.o
