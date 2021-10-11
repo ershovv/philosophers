@@ -18,13 +18,13 @@ int	main(int argc, char **argv)
 
 	if (!(valid(argc, argv)))
 	{
-		printf("Отвалился valid\n");
+		printf("bad valid\n");
 		return (0);
 	}
 	
 	if (!(init(argv, &rule)))
 	{
-		printf("Отвалился init\n");
+		printf("bad init\n");
 		return (0);
 	}
 	printf("worked");
