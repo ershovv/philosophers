@@ -16,7 +16,7 @@ $(NAME) : $(OBJ) $(HEAD)
 	$(CC) $(CFLAGS) $(OBJ) -o $(NAME)
 
 clean:
-	$(RM) $(OBJ)
+	$(RM) ./*.o
 
 fclean: clean
 	$(RM) $(NAME)
