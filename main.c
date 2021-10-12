@@ -24,7 +24,6 @@ void	*life_of_philo(void *p)
 int	main(int argc, char **argv)
 {
 	t_rule	rule;
-	int		i = 0;
 
 	if (!(valid(argc, argv)))
 	{
@@ -37,5 +36,6 @@ int	main(int argc, char **argv)
 		printf("bad init\n");
 		return (0);
 	}
+	sleep(1);
 	return (0);
 }

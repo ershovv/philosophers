@@ -40,6 +40,5 @@ int	init(char **argv, t_rule *rule)
 	if (!rule->philos)
 		return (0);
 	init_philos(rule);
-	sleep(7);
 	return (1);
 }
