@@ -17,10 +17,12 @@ int	init_philos(t_rule *rule)
 	int	i;
 
 	i = rule->n_ph;
-	while (i-- >= 0)
+	while (i >= 0)
 	{
 		rule->philos[i].id = i + 1;
-		pthread_create(rule->philos[i].thread, NULL, life_of_philo, &rule->philos[i]);
+		pthread_create(&rule->philos[i].thread, NULL, life_of_philo, &rule->philos[i]);
+		sleep(1);
+		i--;
 	}
 	return (1);
 }

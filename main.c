@@ -12,12 +12,12 @@
 
 #include "includes/philo.h"
 
-void*	life_of_philo(void *p)
+void	*life_of_philo(void *p)
 {
 	t_philo *philo;
 
 	philo = (t_philo *)p;
-	printf("hi by number %d", philo->id);
+	printf("hi by number %d\n", philo->id);
 	return (0);
 }
 
@@ -37,11 +37,13 @@ int	main(int argc, char **argv)
 		printf("bad init\n");
 		return (0);
 	}
+
 	printf("worked\n");
 
 	while (i != rule.n_ph)
 	{
 		printf("%d\n", rule.philos[i].id);
+		// pthread_detach(*rule.philos[i].thread);
 		i++;
 	}
 	
