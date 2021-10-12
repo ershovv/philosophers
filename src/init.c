@@ -16,13 +16,12 @@ int	init_philos(t_rule *rule)
 {
 	int	i;
 
-	i = rule->n_ph;
-	while (i >= 0)
+	i = 0;
+	while (i != rule->n_ph)
 	{
 		rule->philos[i].id = i + 1;
 		pthread_create(&rule->philos[i].thread, NULL, life_of_philo, &rule->philos[i]);
-		sleep(1);
-		i--;
+		i++;
 	}
 	return (1);
 }
@@ -41,5 +40,6 @@ int	init(char **argv, t_rule *rule)
 	if (!rule->philos)
 		return (0);
 	init_philos(rule);
+	sleep(7);
 	return (1);
 }

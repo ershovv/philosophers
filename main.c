@@ -37,15 +37,5 @@ int	main(int argc, char **argv)
 		printf("bad init\n");
 		return (0);
 	}
-
-	printf("worked\n");
-
-	while (i != rule.n_ph)
-	{
-		printf("%d\n", rule.philos[i].id);
-		// pthread_detach(*rule.philos[i].thread);
-		i++;
-	}
-	
 	return (0);
 }
