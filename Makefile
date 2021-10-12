@@ -11,7 +11,7 @@ SRC = 	main.c 			\
 		./src/utils.c	\
 
 .o : .c
-		$(CC) $(CFLAGS) -Imlx $< -o $@
+		$(CC) $(CFLAGS) $(LDFLAGS) -Imlx $< -o $@
 
 $(NAME) : $(OBJ) $(HEAD)
 	$(CC) $(LDFLAGS) $(CFLAGS) $(OBJ) -o $(NAME)

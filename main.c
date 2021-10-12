@@ -24,6 +24,7 @@ void	*life_of_philo(void *p)
 int	main(int argc, char **argv)
 {
 	t_rule	rule;
+	void	**r = NULL;
 
 	if (!(valid(argc, argv)))
 	{
@@ -36,6 +37,6 @@ int	main(int argc, char **argv)
 		printf("bad init\n");
 		return (0);
 	}
-	sleep(1);
+	pthread_join(rule.philos[4].thread, r);
 	return (0);
 }
