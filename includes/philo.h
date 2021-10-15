@@ -23,7 +23,7 @@
 typedef struct s_philo
 {
 	pthread_t	thread;
-	t_rule		*rule;
+	// t_rule		*rule;
 	int			right_fork;
 	int			left_fork;
 	int			dead;
@@ -45,6 +45,7 @@ typedef struct s_rule
 
 int		valid(int argc, char **argv);
 int		init(char **argv, t_rule *rule);
+int		start(t_rule *rule);
 long	ft_atoi(char *c);
 void	*life_of_philo(void *p);
 void	error(int code);

@@ -29,5 +29,7 @@ int	main(int argc, char **argv)
 		error(1);
 	if (!(init(argv, &rule)))
 		error(2);
+	if (!start(&rule))
+		error(3);
 	return (0);
 }

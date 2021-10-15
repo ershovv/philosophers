@@ -12,4 +12,9 @@ void error(int code)
         printf("bad init\n");
         exit(1);
     }
+    if (code == 3)
+    {
+        printf("bad start\n");
+        exit(1);
+    }
 }

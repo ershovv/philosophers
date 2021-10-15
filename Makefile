@@ -10,6 +10,7 @@ SRC = 	main.c 			\
 		./src/init.c	\
 		./src/utils.c	\
 		./src/error.c	\
+		./src/start.c   \
 
 .o : .c
 		$(CC) $(CFLAGS) $(LDFLAGS) -Imlx $< -o $@
