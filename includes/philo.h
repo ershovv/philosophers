@@ -20,17 +20,6 @@
 # include <pthread.h>
 # include <sys/time.h>
 
-typedef struct s_philo
-{
-	pthread_t	thread;
-	// t_rule		*rule;
-	int			right_fork;
-	int			left_fork;
-	int			dead;
-	int			id;
-
-}	t_philo;
-
 typedef struct s_rule
 {
 	int				n_ph;
@@ -38,10 +27,24 @@ typedef struct s_rule
 	int				t_eat;
 	int				t_sleep;
 	int				must_eat;
-	t_philo			*philos;
+	int				d;
+	struct s_philo	*philos;
 	pthread_mutex_t *forks;
 
 }	t_rule;
+
+//Диана самая лучшая <3
+
+typedef struct s_philo
+{
+	pthread_t	thread;
+	t_rule		*rule;
+	int			right_fork;
+	int			left_fork;
+	int			dead;
+	int			id;
+
+}	t_philo;
 
 int		valid(int argc, char **argv);
 int		init(char **argv, t_rule *rule);

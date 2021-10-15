@@ -12,15 +12,6 @@
 
 #include "includes/philo.h"
 
-void	*life_of_philo(void *p)
-{
-	t_philo *philo;
-
-	philo = (t_philo *)p;
-	printf("hi by number %d\n", philo->id);
-	return (0);
-}
-
 int	main(int argc, char **argv)
 {
 	t_rule	rule;

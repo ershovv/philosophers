@@ -20,7 +20,7 @@ int	init_philos(t_rule *rule)
 	while (i != rule->n_ph)
 	{
 		rule->philos[i].id = i;
-		//rule->philos[i].rule = rule;
+		rule->philos[i].rule = rule;
 		rule->philos[i].left_fork = i;
 		rule->philos[i].right_fork = (i + 1) % rule->n_ph;
 		i++;
@@ -46,6 +46,7 @@ int init_mutex(t_rule *rule)
 
 int	init(char **argv, t_rule *rule)
 {
+	rule->d = 1;
 	rule->n_ph = ft_atoi(argv[1]);
 	rule->t_die = ft_atoi(argv[2]);
 	rule->t_eat = ft_atoi(argv[3]);
