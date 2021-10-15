@@ -23,6 +23,9 @@
 typedef struct s_philo
 {
 	pthread_t	thread;
+	t_rule		*rule;
+	int			right_fork;
+	int			left_fork;
 	int			dead;
 	int			id;
 
@@ -30,12 +33,13 @@ typedef struct s_philo
 
 typedef struct s_rule
 {
-	int		n_ph;
-	int		t_die;
-	int		t_eat;
-	int		t_sleep;
-	int		must_eat;
-	t_philo	*philos;
+	int				n_ph;
+	int				t_die;
+	int				t_eat;
+	int				t_sleep;
+	int				must_eat;
+	t_philo			*philos;
+	pthread_mutex_t *forks;
 
 }	t_rule;
 
@@ -43,5 +47,6 @@ int		valid(int argc, char **argv);
 int		init(char **argv, t_rule *rule);
 long	ft_atoi(char *c);
 void	*life_of_philo(void *p);
+void	error(int code);
 
 #endif

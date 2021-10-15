@@ -24,19 +24,10 @@ void	*life_of_philo(void *p)
 int	main(int argc, char **argv)
 {
 	t_rule	rule;
-	void	**r = NULL;
 
 	if (!(valid(argc, argv)))
-	{
-		printf("bad valid\n");
-		return (0);
-	}
-	
+		error(1);
 	if (!(init(argv, &rule)))
-	{
-		printf("bad init\n");
-		return (0);
-	}
-	pthread_join(rule.philos[4].thread, r);
+		error(2);
 	return (0);
 }
