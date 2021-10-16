@@ -53,4 +53,6 @@ long	ft_atoi(char *c);
 void	*life_of_philo(void *p);
 void	error(int code);
 
+//for windows
+void	Usleep(__int64 usec);
 #endif

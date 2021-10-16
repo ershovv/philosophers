@@ -33,7 +33,7 @@ int init_mutex(t_rule *rule)
 	int i;
 
 	i = 0;
-	while (i != rule->n_ph - 1)
+	while (i != rule->n_ph)
 	{
 		if (pthread_mutex_init(&rule->forks[i], NULL))
 			return (0);
@@ -58,7 +58,7 @@ int	init(char **argv, t_rule *rule)
 	rule->philos = malloc(sizeof(t_philo) * rule->n_ph);
 	if (!rule->philos)
 		return (0);
-	rule->forks = malloc(sizeof(pthread_mutex_t) * rule->n_ph - 1);
+	rule->forks = malloc(sizeof(pthread_mutex_t) * rule->n_ph);
 	if (!rule->forks)
 		return (0);
 	if (!init_philos(rule))
