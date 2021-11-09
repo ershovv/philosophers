@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
-#include "windows.h"
+// #include "windows.h"
 
 long	ft_atoi(char *c)
 {
@@ -40,15 +40,48 @@ long	ft_atoi(char *c)
 	return (res);
 }
 
-void Usleep(__int64 usec) 
-{ 
-    HANDLE timer; 
-    LARGE_INTEGER ft; 
+long long time_now(void)
+{
+	struct timeval time;
 
-    ft.QuadPart = -(10*usec); // Convert to 100 nanosecond interval, negative value indicates relative time
-
-    timer = CreateWaitableTimer(NULL, TRUE, NULL); 
-    SetWaitableTimer(timer, &ft, 0, NULL, NULL, 0); 
-    WaitForSingleObject(timer, INFINITE); 
-    CloseHandle(timer); 
+	gettimeofday(&time, NULL);
+	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
 }
+
+void message(t_rule *rule, void *p, char action)
+{
+	t_philo *philo;
+	// int     i;
+
+	philo = (t_philo *)p;
+	// i = philo->id;
+
+	pthread_mutex_lock(&rule->output);
+	if (rule->d)
+	{
+		printf(" %lli ", time_now() - rule->start_time);
+		if (action == 't')
+		printf("%d is thinking", philo->id + 1);
+		if (action == 's')
+			printf("%d is sleeping", philo->id + 1);
+		if (action == 'f')
+			printf("%d has taken a fork", philo->id + 1);
+		if (action == 'e')
+			printf("%d is eating", philo->id + 1);
+		printf("\n");
+	}
+	pthread_mutex_unlock(&rule->output);
+}
+
+// void Usleep(__int64 usec) // for windows
+// { 
+//     HANDLE timer; 
+//     LARGE_INTEGER ft; 
+
+//     ft.QuadPart = -(10*usec); // Convert to 100 nanosecond interval, negative value indicates relative time
+
+//     timer = CreateWaitableTimer(NULL, TRUE, NULL); 
+//     SetWaitableTimer(timer, &ft, 0, NULL, NULL, 0); 
+//     WaitForSingleObject(timer, INFINITE); 
+//     CloseHandle(timer); 
+// }

@@ -23,6 +23,7 @@ int	init_philos(t_rule *rule)
 		rule->philos[i].rule = rule;
 		rule->philos[i].left_fork = i;
 		rule->philos[i].right_fork = (i + 1) % rule->n_ph;
+		rule->philos[i].eaten = 0;
 		i++;
 	}
 	return (1);
@@ -39,6 +40,8 @@ int init_mutex(t_rule *rule)
 			return (0);
 		i++;
 	}
+	if (pthread_mutex_init(&rule->output, NULL))
+			return (0);
 	return (1);
 }
 

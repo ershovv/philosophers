@@ -4,7 +4,7 @@ RM = rm
 CC = gcc
 LDFLAGS = -pthread
 OBJ = $(SRC:%.c=%.o)
-CFLAGS = -Wall -Werror -Wextra -g
+# CFLAGS = -Wall -Werror -Wextra -g
 SRC = 	main.c 			\
 		./src/valid.c	\
 		./src/init.c	\
@@ -13,10 +13,10 @@ SRC = 	main.c 			\
 		./src/start.c   \
 
 .o : .c
-		$(CC) $(CFLAGS) $(LDFLAGS) -Imlx $< -o $@
+		$(CC) -Imlx $< -o $@
 
 $(NAME) : $(OBJ) $(HEAD)
-	$(CC) $(LDFLAGS) $(CFLAGS) $(OBJ) -o $(NAME)
+	$(CC) $(LDFLAGS) $(OBJ) -o $(NAME)
 
 clean:
 	$(RM) ./*.o

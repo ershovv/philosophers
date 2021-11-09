@@ -30,6 +30,8 @@ typedef struct s_rule
 	int				d;
 	struct s_philo	*philos;
 	pthread_mutex_t *forks;
+	pthread_mutex_t	output;
+	long long		start_time;
 
 }	t_rule;
 
@@ -41,18 +43,19 @@ typedef struct s_philo
 	t_rule		*rule;
 	int			right_fork;
 	int			left_fork;
+	int			eaten;
 	int			dead;
 	int			id;
 
 }	t_philo;
 
-int		valid(int argc, char **argv);
-int		init(char **argv, t_rule *rule);
-int		start(t_rule *rule);
-long	ft_atoi(char *c);
-void	*life_of_philo(void *p);
-void	error(int code);
+int			valid(int argc, char **argv);
+int			init(char **argv, t_rule *rule);
+int			start(t_rule *rule);
+long		ft_atoi(char *c);
+void		*life_of_philo(void *p);
+void		error(int code);
+long long	time_now(void);
+void		message(t_rule *rule, void *p, char action);
 
-//for windows
-void	Usleep(__int64 usec);
 #endif
