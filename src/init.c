@@ -24,6 +24,8 @@ int	init_philos(t_rule *rule)
 		rule->philos[i].left_fork = i;
 		rule->philos[i].right_fork = (i + 1) % rule->n_ph;
 		rule->philos[i].eaten = 0;
+		rule->philos[i].time_last_eat = 0;
+		rule->philos[i].start_thread_time = 0;
 		i++;
 	}
 	return (1);
@@ -54,6 +56,7 @@ int	init(char **argv, t_rule *rule)
 	rule->t_die = ft_atoi(argv[2]);
 	rule->t_eat = ft_atoi(argv[3]);
 	rule->t_sleep = ft_atoi(argv[4]);
+	rule->start_time = 0;
 	if (argv[5])
 		rule->must_eat = ft_atoi(argv[5]);
 	else

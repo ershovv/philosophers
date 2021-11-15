@@ -15,6 +15,7 @@ void eating(void *p)
 
 	message(rule, philo, 'e');
 	usleep(philo->rule->t_eat * 1000);
+	philo->time_last_eat = time_now();
 	philo->eaten += 1;
 
 	pthread_mutex_unlock(&(rule->forks[philo->left_fork]));
@@ -25,6 +26,8 @@ void	*life_of_philo(void *p)
 {
 	t_philo *philo;
 	philo = (t_philo *)p;
+
+	philo->start_thread_time = time_now();
 
 	if (philo->id % 2)
 		usleep(15);
@@ -46,16 +49,50 @@ int end(t_rule *rule)
 	i = 0;
 	while (i != rule->n_ph)
 	{
-		pthread_join(rule->philos[i].thread, NULL);
-		i++;
-	}
-	i = 0;
-	while (i != rule->n_ph)
-	{
 		pthread_mutex_destroy(&rule->forks[i]);
 		i++;
 	}
 	return (1);
+}
+
+void	*death_check(void *r)
+{
+	t_rule	*rule;
+	long long	time;
+	int		i;
+	int		eat;
+
+	i = 0;
+	eat = 0;
+	rule = (t_rule *) r;
+
+	while (1)
+	{
+		if (i == rule->n_ph)
+			i = 0;
+		time = life_time(rule, i);
+		// printf("\n%d\n", (long long)rule->t_die);
+		// printf("\n%d\n", time);
+		if ((long long)rule->t_die <= time)
+		{
+			message(rule, &rule->philos[i], 'd');
+			rule->d = 0;
+			return (NULL);
+		}
+		if (rule->must_eat != -1 && rule->philos[i].eaten == rule->must_eat && rule->philos[i].eaten != -1)
+		{
+			eat += 1;
+			rule->philos[i].eaten = -1;
+		}
+		if (eat == rule->n_ph)
+		{
+			printf("vse pokushali\n");
+			rule->d = 0;
+			return NULL;
+		}
+		i++;
+	}
+	
 }
 
 int start(t_rule *rule)
@@ -64,6 +101,7 @@ int start(t_rule *rule)
 
 	i = 0;
 	rule->start_time = time_now();
+
 	while (i != rule->n_ph)
 	{
 		if (pthread_create(&(rule->philos[i].thread), NULL,
@@ -71,6 +109,7 @@ int start(t_rule *rule)
 			return (0);
 		i++;
 	}
-	end(rule);
+	pthread_create(&(rule->cheack), NULL, death_check, rule);
+	pthread_join(rule->cheack, NULL);
 	return (1);
 }

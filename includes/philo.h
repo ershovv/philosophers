@@ -32,6 +32,7 @@ typedef struct s_rule
 	pthread_mutex_t *forks;
 	pthread_mutex_t	output;
 	long long		start_time;
+	pthread_t		cheack;
 
 }	t_rule;
 
@@ -43,6 +44,8 @@ typedef struct s_philo
 	t_rule		*rule;
 	int			right_fork;
 	int			left_fork;
+	long long	time_last_eat;
+	long long	start_thread_time;
 	int			eaten;
 	int			dead;
 	int			id;
@@ -54,8 +57,8 @@ int			init(char **argv, t_rule *rule);
 int			start(t_rule *rule);
 long		ft_atoi(char *c);
 void		*life_of_philo(void *p);
-void		error(int code);
 long long	time_now(void);
+long long	life_time(t_rule *rule, int c);
 void		message(t_rule *rule, void *p, char action);
 
 #endif

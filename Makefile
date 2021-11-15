@@ -9,7 +9,6 @@ SRC = 	main.c 			\
 		./src/valid.c	\
 		./src/init.c	\
 		./src/utils.c	\
-		./src/error.c	\
 		./src/start.c   \
 
 .o : .c

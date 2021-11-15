@@ -51,15 +51,15 @@ long long time_now(void)
 void message(t_rule *rule, void *p, char action)
 {
 	t_philo *philo;
-	// int     i;
+	long long	time;
 
 	philo = (t_philo *)p;
-	// i = philo->id;
 
 	pthread_mutex_lock(&rule->output);
 	if (rule->d)
 	{
-		printf(" %lli ", time_now() - rule->start_time);
+		time = time_now() - rule->start_time;
+		printf(" %lli ", time);
 		if (action == 't')
 		printf("%d is thinking", philo->id + 1);
 		if (action == 's')
@@ -68,10 +68,27 @@ void message(t_rule *rule, void *p, char action)
 			printf("%d has taken a fork", philo->id + 1);
 		if (action == 'e')
 			printf("%d is eating", philo->id + 1);
+		if (action == 'd')
+			printf("%d is died", philo->id + 1);
 		printf("\n");
 	}
 	pthread_mutex_unlock(&rule->output);
 }
+
+long long life_time(t_rule *rule, int c)
+{
+	long	time;
+
+	if (rule->philos[c].time_last_eat)
+		time = time_now() - rule->philos[c].time_last_eat;
+	else
+		time = time_now() - rule->philos[c].start_thread_time;
+	return (time);
+}
+
+
+
+
 
 // void Usleep(__int64 usec) // for windows
 // { 
