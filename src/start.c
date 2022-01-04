@@ -1,37 +1,44 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   start.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bshawn <bshawn@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/04 12:05:56 by bshawn            #+#    #+#             */
+/*   Updated: 2022/01/04 12:06:12 by bshawn           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/philo.h"
 
-void eating(void *p)
+void	eating(void *p)
 {
-	t_philo *philo;
+	t_philo	*philo;
 	t_rule	*rule;
 
 	philo = (t_philo *)p;
 	rule = philo->rule;
-
 	pthread_mutex_lock(&(rule->forks[philo->left_fork]));
 	message(rule, philo, 'f');
 	pthread_mutex_lock(&(rule->forks[philo->right_fork]));
 	message(rule, philo, 'f');
-
 	message(rule, philo, 'e');
 	usleep(philo->rule->t_eat * 1000);
 	philo->time_last_eat = time_now();
 	philo->eaten += 1;
-
 	pthread_mutex_unlock(&(rule->forks[philo->left_fork]));
-	pthread_mutex_unlock(&(rule->forks[philo->right_fork]));	
+	pthread_mutex_unlock(&(rule->forks[philo->right_fork]));
 }
 
 void	*life_of_philo(void *p)
 {
-	t_philo *philo;
+	t_philo	*philo;
+
 	philo = (t_philo *)p;
-
 	philo->start_thread_time = time_now();
-
 	if (philo->id % 2)
 		usleep(15);
-
 	while (philo->rule->d)
 	{
 		eating(philo);
@@ -42,9 +49,9 @@ void	*life_of_philo(void *p)
 	return (0);
 }
 
-int end(t_rule *rule)
+int	end(t_rule *rule)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i != rule->n_ph)
@@ -57,29 +64,27 @@ int end(t_rule *rule)
 
 void	*death_check(void *r)
 {
-	t_rule	*rule;
+	t_rule		*rule;
 	long long	time;
-	int		i;
-	int		eat;
+	int			i;
+	int			eat;
 
 	i = 0;
 	eat = 0;
 	rule = (t_rule *) r;
-
 	while (1)
 	{
 		if (i == rule->n_ph)
 			i = 0;
 		time = life_time(rule, i);
-		// printf("\n%d\n", (long long)rule->t_die);
-		// printf("\n%d\n", time);
 		if ((long long)rule->t_die <= time)
 		{
 			message(rule, &rule->philos[i], 'd');
 			rule->d = 0;
 			return (NULL);
 		}
-		if (rule->must_eat != -1 && rule->philos[i].eaten == rule->must_eat && rule->philos[i].eaten != -1)
+		if (rule->must_eat != -1 && rule->philos[i].eaten == rule->must_eat
+			&& rule->philos[i].eaten != -1)
 		{
 			eat += 1;
 			rule->philos[i].eaten = -1;
@@ -88,24 +93,22 @@ void	*death_check(void *r)
 		{
 			printf("vse pokushali\n");
 			rule->d = 0;
-			return NULL;
+			return (NULL);
 		}
 		i++;
 	}
-	
 }
 
-int start(t_rule *rule)
+int	start(t_rule *rule)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	rule->start_time = time_now();
-
 	while (i != rule->n_ph)
 	{
 		if (pthread_create(&(rule->philos[i].thread), NULL,
-			life_of_philo, &rule->philos[i]))
+				life_of_philo, &rule->philos[i]))
 			return (0);
 		i++;
 	}

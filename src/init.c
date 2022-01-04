@@ -6,7 +6,7 @@
 /*   By: bshawn <bshawn@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/10 14:27:16 by bshawn            #+#    #+#             */
-/*   Updated: 2021/10/10 16:14:50 by bshawn           ###   ########.fr       */
+/*   Updated: 2022/01/04 12:03:23 by bshawn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ int	init_philos(t_rule *rule)
 	return (1);
 }
 
-int init_mutex(t_rule *rule)
+int	init_mutex(t_rule *rule)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i != rule->n_ph)
@@ -43,11 +43,9 @@ int init_mutex(t_rule *rule)
 		i++;
 	}
 	if (pthread_mutex_init(&rule->output, NULL))
-			return (0);
+		return (0);
 	return (1);
 }
-
-
 
 int	init(char **argv, t_rule *rule)
 {
@@ -68,7 +66,7 @@ int	init(char **argv, t_rule *rule)
 	if (!rule->forks)
 		return (0);
 	if (!init_philos(rule))
-	 	return (0);
+		return (0);
 	if (!init_mutex(rule))
 		return (0);
 	return (1);

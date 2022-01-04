@@ -6,7 +6,7 @@
 /*   By: bshawn <bshawn@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/10 15:32:29 by bshawn            #+#    #+#             */
-/*   Updated: 2021/10/10 15:33:41 by bshawn           ###   ########.fr       */
+/*   Updated: 2022/01/04 12:05:45 by bshawn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,28 +40,27 @@ long	ft_atoi(char *c)
 	return (res);
 }
 
-long long time_now(void)
+long long	time_now(void)
 {
-	struct timeval time;
+	struct timeval	time;
 
 	gettimeofday(&time, NULL);
 	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
 }
 
-void message(t_rule *rule, void *p, char action)
+void	message(t_rule *rule, void *p, char action)
 {
-	t_philo *philo;
+	t_philo		*philo;
 	long long	time;
 
 	philo = (t_philo *)p;
-
 	pthread_mutex_lock(&rule->output);
 	if (rule->d)
 	{
 		time = time_now() - rule->start_time;
 		printf(" %lli ", time);
 		if (action == 't')
-		printf("%d is thinking", philo->id + 1);
+			printf("%d is thinking", philo->id + 1);
 		if (action == 's')
 			printf("%d is sleeping", philo->id + 1);
 		if (action == 'f')
@@ -75,7 +74,7 @@ void message(t_rule *rule, void *p, char action)
 	pthread_mutex_unlock(&rule->output);
 }
 
-long long life_time(t_rule *rule, int c)
+long long	life_time(t_rule *rule, int c)
 {
 	long	time;
 
@@ -85,20 +84,3 @@ long long life_time(t_rule *rule, int c)
 		time = time_now() - rule->philos[c].start_thread_time;
 	return (time);
 }
-
-
-
-
-
-// void Usleep(__int64 usec) // for windows
-// { 
-//     HANDLE timer; 
-//     LARGE_INTEGER ft; 
-
-//     ft.QuadPart = -(10*usec); // Convert to 100 nanosecond interval, negative value indicates relative time
-
-//     timer = CreateWaitableTimer(NULL, TRUE, NULL); 
-//     SetWaitableTimer(timer, &ft, 0, NULL, NULL, 0); 
-//     WaitForSingleObject(timer, INFINITE); 
-//     CloseHandle(timer); 
-// }
