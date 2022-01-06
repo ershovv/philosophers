@@ -6,7 +6,7 @@
 /*   By: bshawn <bshawn@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 12:05:56 by bshawn            #+#    #+#             */
-/*   Updated: 2022/01/06 15:30:29 by bshawn           ###   ########.fr       */
+/*   Updated: 2022/01/06 18:25:57 by bshawn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,12 @@ int	end(t_rule *rule)
 		pthread_mutex_destroy(&rule->forks[i]);
 		i++;
 	}
+	i = 0;
+	while (i != rule->n_ph)
+	{
+		pthread_join(rule->philos[i].thread, NULL);
+		i++;
+	}
 	return (1);
 }
 
@@ -106,5 +112,6 @@ int	start(t_rule *rule)
 	}
 	pthread_create(&(rule->cheack), NULL, death_check, rule);
 	pthread_join(rule->cheack, NULL);
+	end(rule);
 	return (1);
 }
