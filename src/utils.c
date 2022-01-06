@@ -6,7 +6,7 @@
 /*   By: bshawn <bshawn@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/10 15:32:29 by bshawn            #+#    #+#             */
-/*   Updated: 2022/01/06 15:36:40 by bshawn           ###   ########.fr       */
+/*   Updated: 2022/01/06 17:25:18 by bshawn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,14 +99,4 @@ int	all_eat_check(t_rule *rule, t_philo *philo, int *global_eat)
 		return (0);
 	}
 	return (1);
-}
-
-void	my_usleep(long time)
-{
-	long	start;
-
-	start = time_now();
-	while (time > time_now() - start)
-		usleep(40);
-	return ;
 }

@@ -6,11 +6,21 @@
 /*   By: bshawn <bshawn@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/18 16:17:50 by bshawn            #+#    #+#             */
-/*   Updated: 2022/01/04 12:02:59 by bshawn           ###   ########.fr       */
+/*   Updated: 2022/01/06 17:25:26 by bshawn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/philo.h"
+
+void	my_usleep(long time)
+{
+	long	start;
+
+	start = time_now();
+	while (time > time_now() - start)
+		usleep(40);
+	return ;
+}
 
 void	error(int code)
 {
