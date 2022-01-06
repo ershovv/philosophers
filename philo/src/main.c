@@ -6,7 +6,7 @@
 /*   By: bshawn <bshawn@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/18 16:17:50 by bshawn            #+#    #+#             */
-/*   Updated: 2022/01/06 18:09:34 by bshawn           ###   ########.fr       */
+/*   Updated: 2022/01/06 19:19:43 by bshawn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,7 @@ int	main(int argc, char **argv)
 	if (!start(&rule))
 		error(3);
 	printf("END\n");
+	free(rule.philos);
+	free(rule.forks);
 	return (0);
 }

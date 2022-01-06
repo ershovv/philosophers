@@ -6,7 +6,7 @@
 /*   By: bshawn <bshawn@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 12:05:56 by bshawn            #+#    #+#             */
-/*   Updated: 2022/01/06 18:25:57 by bshawn           ###   ########.fr       */
+/*   Updated: 2022/01/06 19:00:11 by bshawn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ int	end(t_rule *rule)
 		i++;
 	}
 	i = 0;
+	pthread_mutex_destroy(&rule->output);
 	while (i != rule->n_ph)
 	{
 		pthread_join(rule->philos[i].thread, NULL);
