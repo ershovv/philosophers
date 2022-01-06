@@ -1,7 +1,8 @@
 *.o
 *.dSYM/
 philo.exe
-philo
+./philo/philo
+./philo_bonus/philo_bonus
 .vscode
 test.c
 a.exe
