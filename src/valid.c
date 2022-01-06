@@ -6,7 +6,7 @@
 /*   By: bshawn <bshawn@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/18 16:39:35 by bshawn            #+#    #+#             */
-/*   Updated: 2022/01/04 12:05:48 by bshawn           ###   ########.fr       */
+/*   Updated: 2022/01/06 15:33:07 by bshawn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	ft_isdigit(int c)
 
 int	check_rule(char **argv)
 {
-	if ((ft_atoi(argv[1]) < 2) || (ft_atoi(argv[2]) < 0)
+	if ((ft_atoi(argv[1]) < 1) || (ft_atoi(argv[2]) < 0)
 		|| (ft_atoi(argv[3]) < 0) || (ft_atoi(argv[4]) < 0))
 		return (0);
 	if (argv[5])

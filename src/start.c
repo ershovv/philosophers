@@ -6,7 +6,7 @@
 /*   By: bshawn <bshawn@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 12:05:56 by bshawn            #+#    #+#             */
-/*   Updated: 2022/01/04 12:06:12 by bshawn           ###   ########.fr       */
+/*   Updated: 2022/01/06 15:30:29 by bshawn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	eating(void *p)
 	pthread_mutex_lock(&(rule->forks[philo->right_fork]));
 	message(rule, philo, 'f');
 	message(rule, philo, 'e');
-	usleep(philo->rule->t_eat * 1000);
+	my_usleep(philo->rule->t_eat);
 	philo->time_last_eat = time_now();
 	philo->eaten += 1;
 	pthread_mutex_unlock(&(rule->forks[philo->left_fork]));
@@ -38,12 +38,12 @@ void	*life_of_philo(void *p)
 	philo = (t_philo *)p;
 	philo->start_thread_time = time_now();
 	if (philo->id % 2)
-		usleep(15);
+		usleep(50);
 	while (philo->rule->d)
 	{
 		eating(philo);
 		message(philo->rule, philo, 's');
-		usleep(philo->rule->t_sleep);
+		my_usleep(philo->rule->t_sleep);
 		message(philo->rule, philo, 't');
 	}
 	return (0);
@@ -83,18 +83,9 @@ void	*death_check(void *r)
 			rule->d = 0;
 			return (NULL);
 		}
-		if (rule->must_eat != -1 && rule->philos[i].eaten == rule->must_eat
-			&& rule->philos[i].eaten != -1)
-		{
-			eat += 1;
-			rule->philos[i].eaten = -1;
-		}
-		if (eat == rule->n_ph)
-		{
-			printf("vse pokushali\n");
-			rule->d = 0;
+		if (!(all_eat_check(rule, &rule->philos[i], &eat)))
 			return (NULL);
-		}
+		usleep(50);
 		i++;
 	}
 }
@@ -110,6 +101,7 @@ int	start(t_rule *rule)
 		if (pthread_create(&(rule->philos[i].thread), NULL,
 				life_of_philo, &rule->philos[i]))
 			return (0);
+		usleep(50);
 		i++;
 	}
 	pthread_create(&(rule->cheack), NULL, death_check, rule);

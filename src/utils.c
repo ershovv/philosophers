@@ -6,12 +6,11 @@
 /*   By: bshawn <bshawn@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/10 15:32:29 by bshawn            #+#    #+#             */
-/*   Updated: 2022/01/04 12:05:45 by bshawn           ###   ########.fr       */
+/*   Updated: 2022/01/06 15:36:40 by bshawn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
-// #include "windows.h"
 
 long	ft_atoi(char *c)
 {
@@ -83,4 +82,31 @@ long long	life_time(t_rule *rule, int c)
 	else
 		time = time_now() - rule->philos[c].start_thread_time;
 	return (time);
+}
+
+int	all_eat_check(t_rule *rule, t_philo *philo, int *global_eat)
+{
+	if (rule->must_eat != -1 && philo->eaten == rule->must_eat
+		&& philo->eaten != -1)
+	{
+		*global_eat += 1;
+		philo->eaten = -1;
+	}
+	if (*global_eat == rule->n_ph)
+	{
+		rule->d = 0;
+		printf("vse pokushali\n");
+		return (0);
+	}
+	return (1);
+}
+
+void	my_usleep(long time)
+{
+	long	start;
+
+	start = time_now();
+	while (time > time_now() - start)
+		usleep(40);
+	return ;
 }

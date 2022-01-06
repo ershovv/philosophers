@@ -6,7 +6,7 @@
 /*   By: bshawn <bshawn@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/18 16:23:06 by bshawn            #+#    #+#             */
-/*   Updated: 2021/10/10 16:01:39 by bshawn           ###   ########.fr       */
+/*   Updated: 2022/01/06 15:26:42 by bshawn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ typedef struct s_rule
 	int				must_eat;
 	int				d;
 	struct s_philo	*philos;
-	pthread_mutex_t *forks;
+	pthread_mutex_t	*forks;
 	pthread_mutex_t	output;
 	long long		start_time;
 	pthread_t		cheack;
@@ -60,5 +60,7 @@ void		*life_of_philo(void *p);
 long long	time_now(void);
 long long	life_time(t_rule *rule, int c);
 void		message(t_rule *rule, void *p, char action);
+int			all_eat_check(t_rule *rule, t_philo *philo, int *global_eat);
+void		my_usleep(long time);
 
 #endif
