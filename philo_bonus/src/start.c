@@ -6,7 +6,7 @@
 /*   By: bshawn <bshawn@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 12:05:56 by bshawn            #+#    #+#             */
-/*   Updated: 2022/01/06 18:24:49 by bshawn           ###   ########.fr       */
+/*   Updated: 2022/01/06 20:48:29 by bshawn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,52 +19,31 @@ void	eating(void *p)
 
 	philo = (t_philo *)p;
 	rule = philo->rule;
-	pthread_mutex_lock(&(rule->forks[philo->left_fork]));
+	sem_wait(rule->forks);
 	message(rule, philo, 'f');
-	pthread_mutex_lock(&(rule->forks[philo->right_fork]));
+	sem_wait(rule->forks);
 	message(rule, philo, 'f');
 	message(rule, philo, 'e');
 	my_usleep(philo->rule->t_eat);
 	philo->time_last_eat = time_now();
+	sem_post(rule->forks);
+	sem_post(rule->forks);
 	philo->eaten += 1;
-	pthread_mutex_unlock(&(rule->forks[philo->left_fork]));
-	pthread_mutex_unlock(&(rule->forks[philo->right_fork]));
-}
-
-void	*life_of_philo(void *p)
-{
-	t_philo	*philo;
-
-	philo = (t_philo *)p;
-	philo->start_thread_time = time_now();
-	if (philo->id % 2)
-		usleep(50);
-	while (philo->rule->d)
-	{
-		eating(philo);
-		message(philo->rule, philo, 's');
-		my_usleep(philo->rule->t_sleep);
-		message(philo->rule, philo, 't');
-	}
-	return (0);
 }
 
 int	end(t_rule *rule)
 {
+	int	status;
 	int	i;
 
 	i = 0;
-	while (i != rule->n_ph)
+	while (rule->philos[i])
 	{
-		pthread_mutex_destroy(&rule->forks[i]);
+		waitpid(rule->philos[i].pid, &status, -1);
 		i++;
 	}
-	i = 0;
-	while (i != rule->n_ph)
-	{
-		pthread_join(rule->philos[i].thread, NULL);
-		i++;
-	}
+	
+
 	return (1);
 }
 
@@ -96,22 +75,46 @@ void	*death_check(void *r)
 	}
 }
 
+void	proc(void *ptr_philo)
+{
+	t_rule	*rule;
+	t_philo	*philo;
+
+	philo = (t_philo *) ptr_philo;
+	rule = philo->rule;
+	pthread_create(&(rule->cheack), NULL, death_check, rule);
+	philo->start_thread_time = time_now();
+	if (philo->id % 2)
+		usleep(50);
+	while (philo->rule->d)
+	{
+		eating(philo);
+		message(philo->rule, philo, 's');
+		my_usleep(philo->rule->t_sleep);
+		message(philo->rule, philo, 't');
+	}
+	pthread_join(rule->cheack, NULL);
+	exit(0);
+}
+
 int	start(t_rule *rule)
 {
-	int	i;
+	int		i;
+	t_philo	*philos;
 
+	philos = rule->philos;
 	i = 0;
 	rule->start_time = time_now();
 	while (i != rule->n_ph)
 	{
-		if (pthread_create(&(rule->philos[i].thread), NULL,
-				life_of_philo, &rule->philos[i]))
-			return (0);
+		philos[i].pid = fork();
+		if (philos[i].pid < 0)
+			return (1);
+		if (philos[i].pid == 0)
+			
 		usleep(50);
 		i++;
 	}
-	pthread_create(&(rule->cheack), NULL, death_check, rule);
-	pthread_join(rule->cheack, NULL);
 	end(rule);
-	return (1);
+	return (0);
 }

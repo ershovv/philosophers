@@ -6,7 +6,7 @@
 /*   By: bshawn <bshawn@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/18 16:23:06 by bshawn            #+#    #+#             */
-/*   Updated: 2022/01/06 15:26:42 by bshawn           ###   ########.fr       */
+/*   Updated: 2022/01/06 20:46:56 by bshawn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,11 @@
 # include <string.h>
 # include <unistd.h>
 # include <pthread.h>
+# include <semaphore.h>
 # include <sys/time.h>
+# include <sys/wait.h>
+# include <signal.h>
+# include <fcntl.h>
 
 typedef struct s_rule
 {
@@ -29,8 +33,8 @@ typedef struct s_rule
 	int				must_eat;
 	int				d;
 	struct s_philo	*philos;
-	pthread_mutex_t	*forks;
-	pthread_mutex_t	output;
+	sem_t			*forks;
+	sem_t			*output;
 	long long		start_time;
 	pthread_t		cheack;
 
@@ -42,8 +46,7 @@ typedef struct s_philo
 {
 	pthread_t	thread;
 	t_rule		*rule;
-	int			right_fork;
-	int			left_fork;
+	pid_t		pid;
 	long long	time_last_eat;
 	long long	start_thread_time;
 	int			eaten;
