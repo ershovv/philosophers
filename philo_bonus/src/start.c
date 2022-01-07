@@ -6,7 +6,7 @@
 /*   By: bshawn <bshawn@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 12:05:56 by bshawn            #+#    #+#             */
-/*   Updated: 2022/01/07 12:43:44 by bshawn           ###   ########.fr       */
+/*   Updated: 2022/01/07 16:30:18 by bshawn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	end(t_rule *rule)
 	int		i;
 
 	i = 0;
-	while (i < rule->n_ph)
+	while (i <= rule->n_ph)
 	{
 		waitpid(-1, &status, 0);
 		if (status != 0)
@@ -53,6 +53,8 @@ int	end(t_rule *rule)
 	}
 	sem_close(rule->output);
 	sem_close(rule->forks);
+	sem_close(rule->death);
+	sem_unlink("/death");
 	sem_unlink("/forks");
 	sem_unlink("/output");
 	return (1);
@@ -64,12 +66,10 @@ void	*death_check(void *phi)
 	t_philo		*philo;
 	long long	time;
 	int			i;
-	int			eat;
 
 	philo = (t_philo *) phi;
 	rule = philo->rule;
 	i = 0;
-	eat = 0;
 	while (1)
 	{
 		time = life_time(philo);
@@ -77,13 +77,12 @@ void	*death_check(void *phi)
 		{
 			message(rule, &rule->philos[i], 'd');
 			rule->d = 0;
-			exit (1);
-		}
-		if (!(all_eat_check(rule, &rule->philos[i], &eat)))
 			return (NULL);
+		}
 		usleep(50);
 		i++;
 	}
+	return (NULL);
 }
 
 void	proc(void *ptr_philo)
@@ -91,10 +90,10 @@ void	proc(void *ptr_philo)
 	t_philo	*philo;
 
 	philo = (t_philo *) ptr_philo;
-	pthread_create(&(philo->cheack), NULL, death_check, philo);
+	pthread_create(&(philo->cheack), NULL, death_check, ptr_philo);
 	philo->start_thread_time = time_now();
 	if (philo->id % 2)
-		usleep(50);
+		usleep(150);
 	while (philo->rule->d)
 	{
 		eating(philo);
@@ -102,8 +101,8 @@ void	proc(void *ptr_philo)
 		my_usleep(philo->rule->t_sleep);
 		message(philo->rule, philo, 't');
 	}
+	write(2, "check\n", 6);
 	pthread_join(philo->cheack, NULL);
-	exit(0);
 }
 
 int	start(t_rule *rule)
@@ -121,7 +120,7 @@ int	start(t_rule *rule)
 			return (1);
 		if (philos[i].pid == 0)
 			proc(&(philos[i]));
-		usleep(50);
+		usleep(150);
 		i++;
 	}
 	end(rule);

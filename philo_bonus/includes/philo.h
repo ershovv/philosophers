@@ -6,7 +6,7 @@
 /*   By: bshawn <bshawn@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/18 16:23:06 by bshawn            #+#    #+#             */
-/*   Updated: 2022/01/07 12:37:09 by bshawn           ###   ########.fr       */
+/*   Updated: 2022/01/07 13:40:55 by bshawn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef struct s_rule
 	struct s_philo	*philos;
 	sem_t			*forks;
 	sem_t			*output;
+	sem_t			*death;
 	long long		start_time;
 }	t_rule;
 
@@ -49,7 +50,6 @@ typedef struct s_philo
 	long long	time_last_eat;
 	long long	start_thread_time;
 	int			eaten;
-	int			dead;
 	int			id;
 
 }	t_philo;

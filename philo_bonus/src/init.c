@@ -6,7 +6,7 @@
 /*   By: bshawn <bshawn@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/10 14:27:16 by bshawn            #+#    #+#             */
-/*   Updated: 2022/01/07 12:05:20 by bshawn           ###   ########.fr       */
+/*   Updated: 2022/01/07 16:29:10 by bshawn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,12 @@ int	init_sem(t_rule *rule)
 {
 	sem_unlink("/forks");
 	sem_unlink("/output");
+	sem_unlink("/death");
 	rule->forks = sem_open("/forks", O_CREAT, S_IRWXU, rule->n_ph);
 	rule->output = sem_open("/output", O_CREAT, S_IRWXU, 1);
-	if (rule->forks == SEM_FAILED || rule->output == SEM_FAILED)
+	rule->death = sem_open("/death", O_CREAT, S_IRWXU, 1);
+	if (rule->forks == SEM_FAILED || rule->output == SEM_FAILED
+		|| rule->death == SEM_FAILED)
 		return (1);
 	return (0);
 }
