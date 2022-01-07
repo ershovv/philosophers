@@ -6,7 +6,7 @@
 /*   By: bshawn <bshawn@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/10 15:32:29 by bshawn            #+#    #+#             */
-/*   Updated: 2022/01/06 17:25:18 by bshawn           ###   ########.fr       */
+/*   Updated: 2022/01/07 12:12:46 by bshawn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,9 @@ void	message(t_rule *rule, void *p, char action)
 	long long	time;
 
 	philo = (t_philo *)p;
-	pthread_mutex_lock(&rule->output);
 	if (rule->d)
 	{
+		sem_wait(rule->output);
 		time = time_now() - rule->start_time;
 		printf(" %lli ", time);
 		if (action == 't')
@@ -69,18 +69,18 @@ void	message(t_rule *rule, void *p, char action)
 		if (action == 'd')
 			printf("%d is died", philo->id + 1);
 		printf("\n");
+		sem_post(rule->output);
 	}
-	pthread_mutex_unlock(&rule->output);
 }
 
-long long	life_time(t_rule *rule, int c)
+long long	life_time(t_philo *philo)
 {
 	long	time;
 
-	if (rule->philos[c].time_last_eat)
-		time = time_now() - rule->philos[c].time_last_eat;
+	if (philo->time_last_eat)
+		time = time_now() - philo->time_last_eat;
 	else
-		time = time_now() - rule->philos[c].start_thread_time;
+		time = time_now() - philo->start_thread_time;
 	return (time);
 }
 

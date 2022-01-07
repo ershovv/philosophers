@@ -6,7 +6,7 @@
 /*   By: bshawn <bshawn@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/18 16:23:06 by bshawn            #+#    #+#             */
-/*   Updated: 2022/01/06 20:46:56 by bshawn           ###   ########.fr       */
+/*   Updated: 2022/01/07 12:37:09 by bshawn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,6 @@ typedef struct s_rule
 	sem_t			*forks;
 	sem_t			*output;
 	long long		start_time;
-	pthread_t		cheack;
-
 }	t_rule;
 
 //Диана самая лучшая <3
@@ -45,6 +43,7 @@ typedef struct s_rule
 typedef struct s_philo
 {
 	pthread_t	thread;
+	pthread_t	cheack;
 	t_rule		*rule;
 	pid_t		pid;
 	long long	time_last_eat;
@@ -61,7 +60,7 @@ int			start(t_rule *rule);
 long		ft_atoi(char *c);
 void		*life_of_philo(void *p);
 long long	time_now(void);
-long long	life_time(t_rule *rule, int c);
+long long	life_time(t_philo *philo);
 void		message(t_rule *rule, void *p, char action);
 int			all_eat_check(t_rule *rule, t_philo *philo, int *global_eat);
 void		my_usleep(long time);
